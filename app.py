@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import firebase_admin
 from firebase_admin import credentials, firestore
 from flask import Flask, jsonify
+import certifi
 
 app = Flask(__name__)
 
@@ -36,7 +37,8 @@ def init_firebase():
 def scrape_internships():
     response = requests.get(
         "https://pminternship.mca.gov.in/internships",
-        headers={"User-Agent": "Mozilla/5.0"}
+        headers={"User-Agent": "Mozilla/5.0"},
+        verify=certifi.where()   # ✅ SSL fix
     )
     soup = BeautifulSoup(response.content, "html.parser")
 
